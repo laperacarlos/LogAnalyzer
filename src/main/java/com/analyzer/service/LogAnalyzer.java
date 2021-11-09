@@ -15,9 +15,11 @@ public class LogAnalyzer {
     public Log convertLogfileEntry(final LogfileEntry logfileEntry) {
         String eventId = logfileEntry.getId();
         if (logMap.containsKey(eventId)) {
+            LOGGER.debug("Completed event: " + eventId);
             return getLog(logfileEntry);
         } else {
             logMap.put(eventId, logfileEntry.getTimestamp());
+            LOGGER.debug("Event with one log: " + eventId);//todo something to log
             return null;
         }
     }

@@ -1,48 +1,55 @@
 package com.analyzer.service;
 
 import com.analyzer.domain.Log;
+import com.analyzer.utility.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.junit.jupiter.api.BeforeAll;
+import org.hibernate.Transaction;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DataReaderTestSuite {
+    private static final String testLogfile1 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile1.txt";
 
     private DataReader dataReader;
-    private static Session session;
-    private static SessionFactory sessionFactory;
+    private Session session;
 
-    @BeforeAll
-    static void createHibernateSession() {
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-        session = sessionFactory.getCurrentSession();
+    @BeforeEach
+    void createHibernateSession() {
+        session = HibernateUtil.getSessionFactory().openSession();
     }
 
     @BeforeEach
     void createReader() {
         LogAnalyzer logAnalyzer = new LogAnalyzer();
-        dataReader =  new DataReader(logAnalyzer);
+        dataReader = new DataReader(logAnalyzer);
+    }
+
+    @AfterEach
+    void cleanDatabase() {
+        Transaction transaction = session.beginTransaction();
+        session.createQuery("delete from logs").executeUpdate();
+        transaction.commit();
     }
 
     @Test
     void shouldParseLogfile() {
+
         //when
-        List<Log> parsedList = dataReader.parseLogfile("C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\logfile.txt", session);
+        dataReader.parseLogfile(testLogfile1, session);
+        List<Log> logList = session.createQuery("from logs", Log.class).list();
 
         //then
-        assertEquals(2, parsedList.size());
-        assertEquals("scsmbstgra", parsedList.get(0).getId());
-        assertEquals("APPLICATION_LOG", parsedList.get(0).getType());
-        //assertEquals(State.STARTED, parsedList.get(0).getState());
-        //assertEquals(1491377495212L, parsedList.get(0).getTimestamp());
-        assertEquals("12345", parsedList.get(0).getHost());
-        assertNull(parsedList.get(1).getHost());
-        assertNull(parsedList.get(1).getType());
+        assertEquals(3, logList.size());
+        assertEquals("scsmbstgra", logList.get(0).getEventId());
+        assertEquals("APPLICATION_LOG", logList.get(0).getType());
+        assertEquals(5, logList.get(0).getDuration());
+        assertTrue(logList.get(0).isAlert());
+        assertEquals("12345", logList.get(0).getHost());
     }
 }

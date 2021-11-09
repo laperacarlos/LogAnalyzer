@@ -9,7 +9,7 @@
     <name>log-analyzer</name>
     <description>Logging file analyzer.</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -36,9 +36,9 @@
             <version>2.12.5</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.6</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

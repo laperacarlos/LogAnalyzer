@@ -20,10 +20,12 @@ public class Log {
     private String eventId;
 
     @Column
+    @NonNull
     private Long duration;
     //TODO if event is only started log info that event is not finished
 
     @Column
+    @NonNull
     private boolean alert;
 
     @Column
@@ -32,7 +34,7 @@ public class Log {
     @Column
     private String host;
 
-    public Log(@NonNull String eventId, Long duration, boolean alert, String type, String host) {
+    public Log(@NonNull String eventId, @NonNull Long duration, @NonNull boolean alert, String type, String host) {
         this.eventId = eventId;
         this.duration = duration;
         this.alert = alert;

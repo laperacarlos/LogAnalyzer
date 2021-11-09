@@ -8,10 +8,9 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class DataReader implements DataAcquisition {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataReader.class);
@@ -22,8 +21,7 @@ public class DataReader implements DataAcquisition {
     }
 
     @Override
-    public List<Log> parseLogfile(String dirPath, Session session) { //TODO should be void method?
-        List<Log> logList = new ArrayList<>();
+    public void parseLogfile(String dirPath, Session session) { //TODO should be void method?
         ObjectMapper mapper = new ObjectMapper();
         Transaction transaction = session.beginTransaction();
 
@@ -37,7 +35,6 @@ public class DataReader implements DataAcquisition {
             while ((line = bufferedReader.readLine()) != null) {
                 LogfileEntry entry = mapper.readValue(line, LogfileEntry.class);
                 Log log = logAnalyzer.convertLogfileEntry(entry);
-                logList.add(log);
                 if (log != null) {
                     session.save(log);
                     i++;
@@ -45,15 +42,11 @@ public class DataReader implements DataAcquisition {
                 if (i > 0 && i % 10 == 0)
                     transaction.commit();
             }
-
-            return logList;
-
+            transaction.commit();
         } catch (IOException e) {
-            if (transaction != null) {
+            if (transaction != null)
                 transaction.rollback();
-            }
-            LOGGER.error(e.getMessage(), e);
-            return Collections.emptyList();
+            e.printStackTrace();
         }
     }
 }

@@ -1,26 +1,23 @@
 package com.analyzer;
 
+import com.analyzer.service.DataAcquisition;
+import com.analyzer.service.DataReader;
+import com.analyzer.service.LogAnalyzer;
 import com.analyzer.utility.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class LogAnalyzerApplication {
 
     public static void main(String[] args) {
-        Transaction transaction = null;
+
+        LogAnalyzer logAnalyzer = new LogAnalyzer();
+        DataAcquisition reader = new DataReader(logAnalyzer);
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // start a transaction
-            transaction = session.beginTransaction();
-            // save the student objects
-            // commit transaction
-            transaction.commit();
+            //  reader.parseLogfile(args[0], session);
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            //todo logger here?
             e.printStackTrace();
         }
-
     }
-
 }
