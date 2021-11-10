@@ -14,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DataReaderTest {
-    private static final String testLogfile1 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile1.txt";
-    private static final String testLogfile2 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile2.txt";
-    private static final String testLogfile3 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile3.txt";
-    private static final String testLogfile4 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile4.txt";
-    private static final String testLogfile5 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile5.txt";
-    private static final String testLogfile6 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile6.txt";
+    private static final String testLogfile1 = "src/test/resources/testLogfile1.txt";
+    private static final String testLogfile2 = "src/test/resources/testLogfile2.txt";
+    private static final String testLogfile3 = "src/test/resources/testLogfile3.txt";
+    private static final String testLogfile4 = "src/test/resources/testLogfile4.txt";
+    private static final String testLogfile5 = "src/test/resources/testLogfile5.txt";
+    private static final String testLogfile6 = "src/test/resources/testLogfile6.txt";
 
     private DataReader dataReader;
     private Session session;

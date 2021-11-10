@@ -1,17 +1,16 @@
 ## Running
 
 * Build the project using command:
-  ```
+    ```
     mvn clean install 
     ```
 
 * Run unit tests using command:
-  ```
+    ```
     mvn test 
     ```
 
-* To run application go to the directory with jar file and run command passing as the argument file path to logfile.txt
-  in format as in example below:
+* To run application run command passing as the argument file path to logfile.txt in format as in example below:
     ```
     java -jar target\log-analyzer.jar "C:\Development\sample_data\logfile.txt"
     ```
