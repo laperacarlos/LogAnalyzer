@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DataReaderTestSuite {
+public class DataReaderTest {
     private static final String testLogfile1 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile1.txt";
     private static final String testLogfile2 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile2.txt";
     private static final String testLogfile3 = "C:\\Development\\Projects\\log-analyzer\\src\\test\\resources\\testLogfile3.txt";

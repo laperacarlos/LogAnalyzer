@@ -13,4 +13,8 @@ public class LogfileEntry {
     private Long timestamp;
     private String type;
     private String host;
+
+    public boolean isValid() {
+        return id != null && state != null && timestamp != null;
+    }
 }

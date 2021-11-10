@@ -7,7 +7,7 @@
 
 * Run unit tests using command:
   ```
-    mvn -Dtest="com.analyzer.service.**" test 
+    mvn test 
     ```
 
 * To run application go to the directory with jar file and run command passing as the argument file path to logfile.txt

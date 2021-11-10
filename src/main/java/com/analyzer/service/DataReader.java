@@ -47,7 +47,7 @@ public class DataReader implements DataAcquisition {
     }
 
     private void validateEntry(LogfileEntry logfileEntry) {
-        if (logfileEntry.getId() == null || logfileEntry.getState() == null || logfileEntry.getTimestamp() == null) {
+        if (!logfileEntry.isValid()) {
             throw new IllegalStateException("One of log entry values is null: \"id\", \"state\", \"timestamp\"");
         }
     }
