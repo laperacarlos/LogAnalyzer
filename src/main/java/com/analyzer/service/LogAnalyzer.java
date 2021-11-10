@@ -16,15 +16,15 @@ public class LogAnalyzer {
         String eventId = logfileEntry.getId();
         if (logMap.containsKey(eventId)) {
             LOGGER.debug("Completed event: " + eventId);
-            return getLog(logfileEntry);
+            return createLog(logfileEntry);
         } else {
             logMap.put(eventId, logfileEntry.getTimestamp());
-            LOGGER.debug("Event with one log: " + eventId);//todo something to log
+            LOGGER.debug("Event with one log: " + eventId);
             return null;
         }
     }
 
-    private Log getLog(LogfileEntry logfileEntry) {
+    private Log createLog(LogfileEntry logfileEntry) {
         String eventId = logfileEntry.getId();
         Long duration = calcDuration(eventId, logfileEntry.getTimestamp());
         boolean alert = validateTime(duration);
@@ -33,7 +33,6 @@ public class LogAnalyzer {
 
     private Long calcDuration(String eventId, Long firstTimestamp) {
         Long secondTimestamp = logMap.get(eventId);
-        logMap.remove(eventId);
         return Math.abs(firstTimestamp - secondTimestamp);
     }
 

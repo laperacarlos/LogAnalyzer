@@ -22,7 +22,6 @@ public class Log {
     @Column
     @NonNull
     private Long duration;
-    //TODO if event is only started log info that event is not finished
 
     @Column
     @NonNull

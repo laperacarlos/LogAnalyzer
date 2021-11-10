@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class DataReader implements DataAcquisition {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataReader.class);
@@ -21,7 +20,7 @@ public class DataReader implements DataAcquisition {
     }
 
     @Override
-    public void parseLogfile(String dirPath, Session session) { //TODO should be void method?
+    public void parseLogfile(String dirPath, Session session) {
         ObjectMapper mapper = new ObjectMapper();
         Transaction transaction = session.beginTransaction();
 
@@ -30,23 +29,26 @@ public class DataReader implements DataAcquisition {
             BufferedReader bufferedReader = new BufferedReader(logfile);
 
             String line;
-            int i = 0;
 
             while ((line = bufferedReader.readLine()) != null) {
                 LogfileEntry entry = mapper.readValue(line, LogfileEntry.class);
+                validateEntry(entry);
                 Log log = logAnalyzer.convertLogfileEntry(entry);
                 if (log != null) {
                     session.save(log);
-                    i++;
                 }
-                if (i > 0 && i % 10 == 0)
-                    transaction.commit();
             }
             transaction.commit();
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (transaction != null)
                 transaction.rollback();
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    private void validateEntry(LogfileEntry logfileEntry) {
+        if (logfileEntry.getId() == null || logfileEntry.getState() == null || logfileEntry.getTimestamp() == null) {
+            throw new IllegalStateException("One of log entry values is null: \"id\", \"state\", \"timestamp\"");
         }
     }
 }
